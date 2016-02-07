@@ -7,12 +7,20 @@ if(env === 'production') { throw new Error('add production config'); }
 else if(env === 'test') { throw new Error('add test config'); }
 else {
 
+  // facebook api settings
   config.facebook = {
     version: '2.5',
     appid: '1673422019591664',
     appsecret: '202f3ea65798338ca4ec98baa197f9a4',
     scope: 'user_photos',
     redirect_uri: 'http://localhost:3000/auth/facebook'
+  };
+
+  // instagram api settings
+  config.instagram = {
+    clientid: 'a1f68c637db948869b27547ec62f51f1',
+    clientsecret: '4cef45849776423ab723421d8b9de1b5',
+    redirect: 'http://localhost:3000/auth/instagram'
   };
 
   // mongodb - data and session

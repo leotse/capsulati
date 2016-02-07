@@ -59,7 +59,7 @@ router.get('/', function(req, res) {
     // this is the extended (60 days) token
     // save to session for now
     // TODO: save to db instead
-    req.session.token = fb.access_token;
-    res.redirect('/');
+    req.session.facebook_token = fb.access_token;
+    res.redirect('/facebook');
   }
 });
