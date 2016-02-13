@@ -2,16 +2,11 @@
 // lib
 var graph = require('fbgraph');
 var express = require('express');
-var instgram = require('instagram-node');
 var config = require('config');
+var instagram = require('lib/api/instagram');
 
 // init
 var router = express.Router();
-var igapi = instgram.instagram();
-igapi.use({
-  client_id: config.instagram.clientid2,
-  client_secret: config.instagram.clientsecret2
-});
 
 // GET /
 router.get('/', function(req, res, next) {
@@ -26,6 +21,7 @@ router.get('/facebook', function(req, res, next) {
     res.redirect('/auth/facebook');
     return;
   }
+  // just an abitrary graph api call
   graph.get('/me/photos?fields=created_time,from,place,name,picture,tags,likes', { access_token: token }, function(err, fb) {
     if(err) { return next(err); }
     res.json(fb);
@@ -39,7 +35,8 @@ router.get('/instagram', function(req, res, next) {
     res.redirect('/auth/instagram');
     return;
   }
-  igapi.tag_media_recent('selfie', {client_id: config.instagram.clientid2}, function(err, result, remaining, limit) {
+  // just an abitrary instagram api call
+  instagram.recentByTag('snowy', function(err, result) {
     if(err) { return next(err); }
     res.send(result);
   });
