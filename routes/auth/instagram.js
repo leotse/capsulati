@@ -20,7 +20,7 @@ router.get('/', function(req, res) {
   // no code? redirect to instagram auth dialog
   if(!code) {
     var authUrl = api.get_authorization_url(config.redirect, {
-      scope: [ 'public_content' ]
+      scope: [ 'basic', 'public_content' ]
     });
     res.redirect(authUrl);
     return;

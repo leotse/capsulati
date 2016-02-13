@@ -3,9 +3,15 @@
 var graph = require('fbgraph');
 var express = require('express');
 var instgram = require('instagram-node');
+var config = require('config');
 
 // init
 var router = express.Router();
+var igapi = instgram.instagram();
+igapi.use({
+  client_id: config.instagram.clientid2,
+  client_secret: config.instagram.clientsecret2
+});
 
 // GET /
 router.get('/', function(req, res, next) {
@@ -33,11 +39,9 @@ router.get('/instagram', function(req, res, next) {
     res.redirect('/auth/instagram');
     return;
   }
-  var api = instgram.instagram();
-  api.use({ access_token: token });
-  api.user_self_feed(function(err, medias) {
+  igapi.tag_media_recent('selfie', {client_id: config.instagram.clientid2}, function(err, result, remaining, limit) {
     if(err) { return next(err); }
-    res.send(medias);
+    res.send(result);
   });
 });
 

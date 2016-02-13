@@ -18,22 +18,26 @@ else {
 
   // instagram api settings
   config.instagram = {
+    // new ig client that requires submission approval
     clientid: 'a1f68c637db948869b27547ec62f51f1',
     clientsecret: '4cef45849776423ab723421d8b9de1b5',
+    // grandfathered client id that just works
+    clientid2: 'ea0ac3c3467542c18deafdf2d7e38669',
+    clientsecret2: 'cda054b8dc784d2091f18c7e03d9c199',
     redirect: 'http://localhost:3000/auth/instagram'
   };
 
   // mongodb - data and session
   config.db = {
-    data: 'mongodb://localhost:27017/capsulati-data',
-    session: 'mongodb://localhost:27017/capsulati-session'
+    data: 'mongodb://localhost:27117/capsulati-data',
+    session: 'mongodb://localhost:27117/capsulati-session'
   };
 
   // cookies
   config.cookie = {
     name: 'capsulati',
     secret: '1BuO;XZ*)d65QaO91}(un5R=t7Cr31',
-    maxAge: 86400 * 1000, // 1 day
+    maxAge: 7 * 24 * 3600 * 1000, // 1 week
     resave: false,
     saveUninitialized: false
   };
