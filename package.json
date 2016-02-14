@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "web": "NODE_PATH=. nodemon ./bin/www"
+    "web": "NODE_PATH=. nodemon -i public ./bin/www"
   },
   "dependencies": {
     "async": "^1.5.2",

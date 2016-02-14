@@ -4,8 +4,17 @@ block script
   script(src='/js/main.js')
 
 block content
-  div#main
-    div.section Section 1
-    div.section Section 2
-    div.section Section 3
-    div.section Section 4
+  div#page-wrapper
+    div#carousel.carousel.slide
+      div.carousel-inner(role='listbox')
+        div.item
+        div.item
+        div.item.active
+        div.item
+        div.item
+    a#prev.left.carousel-control(role='button' data-slide='prev')
+      span.glyphicon.glyphicon-chevron-left(aria-hidden='true')
+      span.sr-only Previous
+    a#next.right.carousel-control(role='button' data-slide='next')
+      span.glyphicon.glyphicon-chevron-right(aria-hidden='true')
+      span.sr-only Next
