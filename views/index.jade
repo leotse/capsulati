@@ -1,11 +1,11 @@
 extends layout
 
+block script
+  script(src='/js/main.js')
+
 block content
-  h1= title
-  ul
-    li
-      a(href="/logout") logout
-    li
-      a(href="/auth/facebook") login with facebook
-    li
-      a(href="/auth/instagram") login with instagram
+  div#main
+    div.section Section 1
+    div.section Section 2
+    div.section Section 3
+    div.section Section 4

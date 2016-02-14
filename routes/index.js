@@ -10,11 +10,15 @@ var router = express.Router();
 
 // GET /
 router.get('/', function(req, res, next) {
-  console.log(req.session);
-  res.render('index', { title: 'login' });
+  res.render('index');
 });
 
-// GET /facebok
+router.get('/login', function(req, res, next) {
+  console.log(req.session);
+  res.render('login');
+});
+
+// GET /facebook
 router.get('/facebook', function(req, res, next) {
   var token = req.session.facebook_token;
   if(!token) {

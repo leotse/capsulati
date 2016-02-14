@@ -1,7 +1,13 @@
 doctype html
 html
   head
-    title= title
-    link(rel='stylesheet', href='/stylesheets/style.css')
+    title capsulati
+    link(rel='stylesheet', href='/vendor/bootstrap/dist/css/bootstrap.css')
+    link(rel='stylesheet', href='/vendor/fullpage.js/dist/jquery.fullpage.css')
+    link(rel='stylesheet', href='/css/style.css')
+    block css
+    script(src='/vendor/jquery/dist/jquery.js')
+    script(src='/vendor/fullpage.js/dist/jquery.fullpage.js')
+    block script
   body
     block content
