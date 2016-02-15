@@ -34,6 +34,7 @@ app.use(session(_.extend({
 app.use('/', require('routes/index'));
 app.use('/auth/facebook', require('routes/auth/facebook'));
 app.use('/auth/instagram', require('routes/auth/instagram'));
+app.use('/api/instagram', require('routes/api/instagram'));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -1,0 +1,8 @@
+.carousel .item-container {
+  display: flex;
+  height: 100vh;
+}
+
+.carousel .item img {
+  margin: auto;
+}

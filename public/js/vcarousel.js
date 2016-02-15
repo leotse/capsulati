@@ -1,11 +1,11 @@
-(function($) {
+(function(window, $) {
 
   'use strict';
 
   function VCarousel(opts) {
 
     // init - internal control states
-    var $carousel = $(this);
+    var $carousel = $(opts.selector);
     var $items = $carousel.find('.item');
     var $active = $carousel.find('.item.active');
     var $prev = $(opts.prev);
@@ -14,8 +14,7 @@
     var size = $items.size();
     var index = $active.index();
     var animating = false;
-
-    $active.text('item ' + index);
+    var data = [];
 
     // init - carousel events
     $prev.on('click', prev);
@@ -27,26 +26,39 @@
     // init - finally create the underlying bootstrap carousel!
     $carousel.carousel(opts);
 
-    // helper - prev slide
+    // public - add data
+    this.setData = function(newData) {
+      data = newData;
+
+      // update dom
+      $items[index % size].innerHTML = createImageHTML(data[index].images.standard_resolution.url);
+    };
+
+    // private - prev slide
     function prev() {
-      if(animating ||index === 0) { return; }
+      if(animating || index === 0) { return; }
       animating = true;
       index--;
-      $items[index % size].innerText = 'item ' + index;
+      $items[index % size].innerHTML = createImageHTML(data[index].images.standard_resolution.url);
       $carousel.carousel('prev');
     }
 
-    // helper - next slide
+    // private - next slide
     function next() {
-      if(animating) { return; }
+      if(animating || index + 1 >= data.length) { return; }
       animating = true;
       index++;
-      $items[index % size].innerText = 'item ' + index;
+      $items[index % size].innerHTML = createImageHTML(data[index].images.standard_resolution.url);
       $carousel.carousel('next');
+    }
+
+    // private - create image tag
+    function createImageHTML(url) {
+      return '<div class="item-container"><img src="' + url + '" /></div>';
     }
   }
 
   // register jquery plugin
-  $.fn.vcarousel = VCarousel;
+  window.VCarousel = VCarousel;
 
-}(jQuery));
+}(window, jQuery));
