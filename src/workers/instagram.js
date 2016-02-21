@@ -40,8 +40,8 @@ var work = module.exports = function(opts, callback) {
     log('retreived %d photos for #%s',
       photos.length,
       tag,
-      first.created.toISOString(),
-      last.created.toISOString()
+      first ? first.created.toISOString() : '-',
+      last ? last.created.toISOString() : '-'
     );
 
     // update db
@@ -63,7 +63,7 @@ var work = module.exports = function(opts, callback) {
       }
 
       // and see if we need to get more
-      if(last.created > minDate) {
+      if(nextUrl && last.created > minDate) {
         setImmediate(function() {
           instagram.next(nextUrl, onAPIComplete);
         });
@@ -75,7 +75,7 @@ var work = module.exports = function(opts, callback) {
 };
 
 var minDate = moment().startOf('minute').add(-30, 'minutes').toDate();
-work({ tag:'snowboarding', minDate: minDate }, function() {
+work({ tag:'natgeo', minDate: minDate }, function() {
   log('done!');
   process.exit();
 });
