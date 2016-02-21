@@ -11,9 +11,13 @@ var MongoStore = require('connect-mongodb-session')(session);
 
 var _ = require('lodash');
 var config = require('config');
+var model = require('lib/model');
 
 // init - express app
 var app = express();
+
+// init - mongodb data connection
+model.connect(config.db.data);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

@@ -16,7 +16,7 @@
     "fbgraph": "^1.1.0",
     "instagram-node": "^0.5.8",
     "jade": "~1.11.0",
-    "lodash": "^4.2.1",
+    "lodash": "^4.5.0",
     "mongoose": "^4.4.4",
     "morgan": "~1.6.1",
     "request": "^2.69.0",

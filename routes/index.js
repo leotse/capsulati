@@ -2,7 +2,9 @@
 // lib
 var graph = require('fbgraph');
 var express = require('express');
+
 var config = require('config');
+var model = require('lib/model');
 var instagram = require('lib/api/instagram');
 
 // init
@@ -42,7 +44,8 @@ router.get('/instagram', function(req, res, next) {
   // just an abitrary instagram api call
   instagram.recentByTag('snowy', function(err, result) {
     if(err) { return next(err); }
-    res.send(result);
+    var photos = result.data.map((media) => { return model.Photo.fromInstagram(media); });
+    res.send(photos);
   });
 });
 
