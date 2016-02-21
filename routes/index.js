@@ -5,7 +5,6 @@ var express = require('express');
 
 var config = require('config');
 var model = require('lib/model');
-var Photo = model.Photo;
 
 // init
 var router = express.Router();
@@ -43,19 +42,13 @@ router.get('/instagram', function(req, res, next) {
     res.redirect('/auth/instagram');
     return;
   }
+  // just an abitrary instagram api call
 
-  // latest photos
-  Photo.find().limit(10).sort('-created').exec((err, photos) => {
+  instagram.recentByTag('snowy', function(err, result) {
     if(err) { return next(err); }
+    var photos = result.data.map(media => { return model.Photo.from('instagram', media); });
     res.send(photos);
   });
-
-  // just an abitrary instagram api call
-  // instagram.recentByTag('snowy', function(err, result) {
-  //   if(err) { return next(err); }
-  //   var photos = result.data.map(media => { return model.Photo.from('instagram', media); });
-  //   res.send(photos);
-  // });
 });
 
 // GET /logout

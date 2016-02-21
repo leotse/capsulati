@@ -17,6 +17,7 @@
     "instagram-node": "^0.5.8",
     "jade": "~1.11.0",
     "lodash": "^4.5.0",
+    "moment": "^2.11.2",
     "mongoose": "^4.4.4",
     "morgan": "~1.6.1",
     "request": "^2.69.0",

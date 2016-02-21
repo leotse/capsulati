@@ -42,8 +42,11 @@ var PhotoSchema = module.exports = new Schema({
 
 }, { strict: true });
 
+// index - used for updating photos
+PhotoSchema.index({ source: 1, id: 1 }, { unique: true });
 
-// TODO: define indexes
+// index - used by api to get photos in reverse chronological order -
+PhotoSchema.index({ created: -1 });
 
 // static - creates a photo model for the given source and json
 PhotoSchema.statics.from = function(source, json) {

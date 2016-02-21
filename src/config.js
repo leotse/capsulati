@@ -41,4 +41,10 @@ else {
     resave: false,
     saveUninitialized: false
   };
+
+  // worker settings
+  config.worker = {
+    instagram: { timeout: 60 },
+    facebook: { timeout: 60 }
+  };
 }

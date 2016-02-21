@@ -23,6 +23,14 @@ module.exports.recentByTag = function(tag, callback) {
   }, handleResponse(callback));
 };
 
+// gets next page of data for ANY api calls, given the next_url
+module.exports.next = function(url, callback) {
+  request({
+    url: url,
+    json: true
+  }, handleResponse(callback));
+};
+
 // helper - handles a http response
 function handleResponse(callback) {
   return function(err, res, json) {
