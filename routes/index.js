@@ -26,7 +26,7 @@ router.get('/facebook', function(req, res, next) {
     return;
   }
   // just an abitrary graph api call
-  graph.get('/me/photos?fields=created_time,from,place,name,picture,tags,likes', { access_token: token }, function(err, fb) {
+  graph.get('/me/photos?fields=id,created_time,from,place,name,images,picture,tags,likes', { access_token: token }, function(err, fb) {
     if(err) { return next(err); }
     res.json(fb);
   });
