@@ -28,9 +28,11 @@ router.get('/facebook', function(req, res, next) {
     return;
   }
   // just an abitrary graph api call
-  graph.get('/me/photos?fields=id,created_time,from,place,name,images,picture,tags,likes', { access_token: token }, function(err, fb) {
+  // graph.get('/me/photos?fields=id,created_time,from,place,name,images,picture,tags,likes', { access_token: token }, function(err, fb) {
+  graph.get('/me/photos?fields=id,created_time,from,place,name,images', { access_token: token }, function(err, fb) {
     if(err) { return next(err); }
-    res.json(fb);
+    var photos = fb.data.map(photo => { return model.Photo.from('facebook', photo); });
+    res.json(photos);
   });
 });
 
@@ -44,7 +46,7 @@ router.get('/instagram', function(req, res, next) {
   // just an abitrary instagram api call
   instagram.recentByTag('snowy', function(err, result) {
     if(err) { return next(err); }
-    var photos = result.data.map((media) => { return model.Photo.fromInstagram(media); });
+    var photos = result.data.map(media => { return model.Photo.from('instagram', media); });
     res.send(photos);
   });
 });
