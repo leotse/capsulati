@@ -37,7 +37,7 @@ else {
   config.cookie = {
     name: 'capsulati',
     secret: '1BuO;XZ*)d65QaO91}(un5R=t7Cr31',
-    maxAge: 7 * 24 * 3600 * 1000, // 1 week
+    maxAge: 30 * 7 * 24 * 3600 * 1000, // 1 month
     resave: false,
     saveUninitialized: false
   };
