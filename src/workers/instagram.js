@@ -25,7 +25,7 @@ var work = module.exports = function(opts, callback) {
 
   log('instagram worker started for #%s until %s', tag, minDate);
 
-  // get latest photo
+  // get latest photos
   instagram.recentByTag(tag, onAPIComplete);
   function onAPIComplete(err, res) {
 
@@ -56,28 +56,26 @@ var work = module.exports = function(opts, callback) {
       );
     }, onPhotosUpdated);
 
-    // and see if we need to get more
-    if(last.created > minDate) {
-      setImmediate(function() {
-        instagram.next(nextUrl, onAPIComplete);
-      });
-    } else {
-      setImmediate(callback);
+    function onPhotosUpdated() {
+      if(err) {
+        log('db update erorr');
+        console.log(err);
+      }
+
+      // and see if we need to get more
+      if(last.created > minDate) {
+        setImmediate(function() {
+          instagram.next(nextUrl, onAPIComplete);
+        });
+      } else {
+        setImmediate(callback);
+      }
     }
   }
 };
 
-// helper - db update callback, mostly for logging purposes
-function onPhotosUpdated(photo) {
-  return function(err) {
-    if(err) {
-      log('db update erorr');
-      console.log(err);
-    }
-  };
-}
-
 var minDate = moment().startOf('minute').add(-30, 'minutes').toDate();
 work({ tag:'snowboarding', minDate: minDate }, function() {
   log('done!');
+  process.exit();
 });
