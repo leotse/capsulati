@@ -1,21 +1,10 @@
 extends layout
 
-block script
-  script(src='/js/vcarousel.js')
-  script(src='/js/main.js')
-
 block content
-  div#page-wrapper
-    div#carousel.carousel.slide
-      div.carousel-inner(role='listbox')
-        div.item
-        div.item
-        div.item.active
-        div.item
-        div.item
-    a#prev.left.carousel-control(role='button')
-      span.glyphicon.glyphicon-chevron-left(aria-hidden='true')
-      span.sr-only Previous
-    a#next.right.carousel-control(role='button')
-      span.glyphicon.glyphicon-chevron-right(aria-hidden='true')
-      span.sr-only Next
+  div.container-fluid.page.home
+    div.row
+      div.col-sm-2.col-sm-offset-5.text-center
+        h1 capsulati
+    div.row
+      div.col-sm-2.col-sm-offset-5.text-center
+        a(href="/wizard") get started

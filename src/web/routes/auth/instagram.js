@@ -1,10 +1,11 @@
 // Instagram Auth Routes
 
 // lib
-var async = require('async');
 var express = require('express');
 var instagram = require('instagram-node');
 var config = require('config').instagram;
+
+var model = require('lib/model');
 
 // init
 var router = module.exports = express.Router();
@@ -14,7 +15,7 @@ api.use({
   client_secret: config.clientsecret
 });
 
-router.get('/', function(req, res) {
+router.get('/', function(req, res, next) {
   var code = req.query.code;
 
   // no code? redirect to instagram auth dialog
@@ -30,7 +31,23 @@ router.get('/', function(req, res) {
   // exchange code with user request token
   api.authorize_user(code, config.redirect, function(err, insta) {
     if(err) { return next(err); }
-    req.session.instagram_token = insta.access_token;
-    res.redirect('/instagram');
+
+    // we now have the request token!
+    // save token to the current db album
+    var albumID = req.session.album._id;
+    model.Album.findById(albumID)
+      .then(updateAlbum)
+      .then(redirectUser)
+      .catch(next);
+
+    function updateAlbum(album) {
+      album.tokens.instagram = insta.access_token;
+      return album.save();
+    }
+
+    function redirectUser(album) {
+      req.session.album = album.toObject();
+      res.redirect('/wizard/3');
+    }
   });
 });

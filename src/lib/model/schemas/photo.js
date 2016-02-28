@@ -1,6 +1,5 @@
 // photo schema defn
 
-var _ = require('lodash');
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var ObjectId = Schema.Types.ObjectId;
@@ -62,7 +61,7 @@ function fromInstagram(json) {
   photo.source = 'instagram';
   photo.id = json.id;
   photo.created = new Date(Number(json.created_time) * 1000);
-  photo.images = _.map(json.images, img => {
+  photo.images = json.images.map(img => {
     return {
       url: img.url,
       width: img.width,
@@ -101,7 +100,7 @@ function fromFacebook(json) {
   photo.source = 'faecbook';
   photo.id = json.id;
   photo.created = new Date(json.created_time);
-  photo.images = _.map(json.images, img => {
+  photo.images = json.images.map(img => {
     return {
       url: img.source,
       width: img.width,

@@ -1,0 +1,9 @@
+extends ../layout
+
+block content
+  form.container-fluid.page.wizard(method="post" action="/wizard/2")
+    div.row
+      div.col-sm-4.col-sm-offset-4.text-center facebook success!
+    div.row
+      div.col-sm-4.col-sm-offset-4.text-center
+        button(type="submit") next - sign in with instagram

@@ -9,7 +9,6 @@ var bodyParser = require('body-parser');
 var session = require('express-session');
 var MongoStore = require('connect-mongodb-session')(session);
 
-var _ = require('lodash');
 var config = require('config');
 var model = require('lib/model');
 
@@ -30,14 +29,16 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(session(_.extend({
+app.use(session(Object.assign({
   store: new MongoStore({ uri: config.db.session })
 }, config.cookie)));
 
-// app routers
+// web routes
 app.use('/', require('web/routes/index'));
 app.use('/auth/facebook', require('web/routes/auth/facebook'));
 app.use('/auth/instagram', require('web/routes/auth/instagram'));
+
+// api routes
 app.use('/api/instagram', require('web/routes/api/instagram'));
 app.use('/api/photos', require('web/routes/api/photos'));
 
