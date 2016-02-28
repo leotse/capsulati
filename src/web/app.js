@@ -35,8 +35,9 @@ app.use(session(Object.assign({
 
 // web routes
 app.use('/', require('web/routes/index'));
-app.use('/auth/facebook', require('web/routes/auth/facebook'));
-app.use('/auth/instagram', require('web/routes/auth/instagram'));
+app.use('/wizard', require('web/routes/wizard'));
+app.use('/auth/facebook', require('web/routes/auth/facebook')('/wizard/2'));
+app.use('/auth/instagram', require('web/routes/auth/instagram')('/wizard/3'));
 
 // api routes
 app.use('/api/instagram', require('web/routes/api/instagram'));
