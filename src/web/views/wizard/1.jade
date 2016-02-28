@@ -1,7 +1,11 @@
 extends ../layout
 
+block script
+  script(src='/js/wizard1.js')
+
 block content
-  form(method="post" action="/wizard/1")
+  form(method='post' action='/wizard/1')
+    input.timezone(type='hidden' name='timezone' value='')
     div.container-fluid.page.wizard
       div.row
         div.col-sm-4.col-sm-offset-4.text-center
@@ -9,11 +13,18 @@ block content
       div.row
         div.col-sm-4.col-sm-offset-4.text-center 
           p url slug - this will be used as the url to your capsule <br>
-            input(type="text" name="slug" placeholder="ex: sowedding")
+            input.form-control(type='text' name='slug' placeholder='ex: somarried')
       div.row
         div.col-sm-4.col-sm-offset-4.text-center 
           p what #hashtag to look for? <br>
-            input(type="text" name="tag" placeholder="ex: karenkentwedding2016")
+            input.form-control(type='text' name='tag' placeholder='ex: karenkentwedding2016')
+      div.row
+        div.col-sm-4.col-sm-offset-4.text-center 
+          p when is it?
+            div.input-daterange.input-group
+              input.input-sm.form-control(type='text', name='startDate')
+              span.input-group-addon to
+              input.input-sm.form-control(type='text', name='endDate')
       div.row
         div.col-sm-4.col-sm-offset-4.text-center
-          button(type="submit") next - sign in with facebook
+          button(type='submit') next - sign in with facebook

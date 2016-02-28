@@ -1,8 +1,8 @@
 // general routes mounted on root
 
 // lib
-var graph = require('fbgraph');
 var express = require('express');
+var moment = require('moment-timezone');
 
 var config = require('config');
 var model = require('lib/model');
@@ -35,14 +35,23 @@ router.get('/wizard/1', function(req, res) {
 
 // POST /wizard/1 - reserve url slug, then continue to step 2
 router.post('/wizard/1', function(req, res, next) {
-  var slug = req.body.slug.toLowerCase();
-  var tag = req.body.tag.toLowerCase();
+  var body = req.body;
+  var slug = body.slug.toLowerCase();
+  var tag = body.tag.toLowerCase();
+  var timezone = body.timezone;
+  var startDate = moment.tz(body.startDate, 'YYYY-MM-DD', timezone);
+  var endDate = moment.tz(body.endDate, 'YYYY-MM-DD', timezone).endOf('day');
 
   // save album to db to 'reserve' slug
   var album = new Album({
     slug: slug,
-    tag: tag
+    tag: tag,
+    dates: {
+      start: startDate,
+      end: endDate
+    }
   });
+
   album.save().then(function(saved) {
     req.session.album = saved.toObject();
     res.redirect('/auth/facebook');
