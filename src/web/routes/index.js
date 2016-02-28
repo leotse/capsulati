@@ -1,3 +1,4 @@
+// general routes mounted on root
 
 // lib
 var graph = require('fbgraph');
@@ -34,8 +35,8 @@ router.get('/wizard/1', function(req, res) {
 
 // POST /wizard/1 - reserve url slug, then continue to step 2
 router.post('/wizard/1', function(req, res, next) {
-  var slug = req.body.slug;
-  var tag = req.body.tag;
+  var slug = req.body.slug.toLowerCase();
+  var tag = req.body.tag.toLowerCase();
 
   // save album to db to 'reserve' slug
   var album = new Album({

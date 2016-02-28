@@ -42,6 +42,9 @@ app.use('/auth/instagram', require('web/routes/auth/instagram'));
 app.use('/api/instagram', require('web/routes/api/instagram'));
 app.use('/api/photos', require('web/routes/api/photos'));
 
+// slug routes
+app.use('/', require('web/routes/slug'));
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
