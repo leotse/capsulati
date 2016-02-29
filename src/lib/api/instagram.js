@@ -5,40 +5,31 @@
 
 // lib
 var util = require('util');
-var request = require('request');
+var request = require('request-promise');
 var config = require('config').instagram;
 
 // recent media by tag
-module.exports.recentByTag = function(tag, callback) {
+module.exports.recentByTag = function(tag) {
   var path = util.format('/tags/%s/media/recent', tag);
   var url = getUrl(path);
   var query = {
     client_id: config.clientid2,
     count: 50
   };
-  request({
+  return request({
     url: url,
     qs: query,
     json: true,
-  }, handleResponse(callback));
+  });
 };
 
 // gets next page of data for ANY api calls, given the next_url
-module.exports.next = function(url, callback) {
-  request({
+module.exports.next = function(url) {
+  return request({
     url: url,
     json: true
-  }, handleResponse(callback));
+  });
 };
-
-// helper - handles a http response
-function handleResponse(callback) {
-  return function(err, res, json) {
-    if(err) { return callback(err); }
-    if(res.statusCode !== 200) { return callback(json); }
-    callback(null, json);
-  };
-}
 
 // helper - gets instagram url for an endpoint
 function getUrl(path) {
