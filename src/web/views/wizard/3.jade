@@ -6,5 +6,8 @@ block content
       div.col-sm-4.col-sm-offset-4.text-center instagram success!
     div.row
       div.col-sm-4.col-sm-offset-4.text-center
-        p you're all good to go!
-        pre=json
+        p you're all good to go! redirecting to your album...
+  script.
+    setTimeout(() => {
+      window.location = '/#{slug}';
+    }, 2000);

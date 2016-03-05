@@ -47,4 +47,7 @@ else {
     instagram: { timeout: 60 },
     facebook: { timeout: 60 }
   };
+
+  // scheduler settings
+  config.scheduler = '* * * * * *'; // every 5 seconds for dev purposes
 }

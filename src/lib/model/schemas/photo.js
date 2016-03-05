@@ -7,6 +7,9 @@ var ObjectId = Schema.Types.ObjectId;
 
 var PhotoSchema = module.exports = new Schema({
 
+  // which album?
+  _album: { type: ObjectId, required: true, ref: 'album' },
+
   // source of this photo
   source: { type: String, required: true, enum: [ 'facebook', 'instagram' ] },
 
@@ -43,10 +46,10 @@ var PhotoSchema = module.exports = new Schema({
 }, { strict: true });
 
 // index - used for updating photos
-PhotoSchema.index({ source: 1, id: 1 }, { unique: true });
+PhotoSchema.index({ album: 1, id: 1 }, { unique: true });
 
-// index - used by api to get photos in reverse chronological order -
-PhotoSchema.index({ created: -1 });
+// index - used by api to get photos in reverse chronological order
+PhotoSchema.index({ album: 1, created: -1 });
 
 // static - creates a photo model for the given source and json
 PhotoSchema.statics.from = function(source, json) {
@@ -57,7 +60,7 @@ PhotoSchema.statics.from = function(source, json) {
 
 // private helper - create a photo instance from instagram api media object
 function fromInstagram(json) {
-  var Photo = this.model('Photo');
+  var Photo = this.model('photo');
   var photo = new Photo();
   photo.source = 'instagram';
   photo.id = json.id;
@@ -96,7 +99,7 @@ function fromInstagram(json) {
 
 // private helper  - create a photo instance from facebook graph api photo object
 function fromFacebook(json) {
-  var Photo = this.model('Photo');
+  var Photo = this.model('photo');
   var photo = new Photo();
   photo.source = 'faecbook';
   photo.id = json.id;

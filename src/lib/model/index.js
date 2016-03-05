@@ -5,8 +5,8 @@ var mongoose = require('mongoose');
 var log = require('lib/util/logger');
 
 // init - register db models
-var Photo = module.exports.Photo = mongoose.model('Photo', require('./schemas/photo'));
-var Album = module.exports.Album = mongoose.model('Album', require('./schemas/album'));
+var Photo = module.exports.Photo = mongoose.model('photo', require('./schemas/photo'));
+var Album = module.exports.Album = mongoose.model('album', require('./schemas/album'));
 
 // public - connect to db
 module.exports.connect = function(uri, opts) {

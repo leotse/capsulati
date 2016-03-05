@@ -9,7 +9,9 @@ var model = require('lib/model');
 
 router.get('/:slug', function(req, res, next) {
   var slug = req.params.slug;
-  model.Album.findOne({ slug: slug })
+  model.Album.findOne()
+    .select('-tokens')
+    .where('slug', slug)
     .then(album => {
       if(!album) { return next(); }
       res.json(album);

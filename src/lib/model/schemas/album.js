@@ -31,3 +31,14 @@ var AlbumSchema = module.exports = new Schema({
 
 // index - url slug lookup
 AlbumSchema.index({ slug: 1 }, { unique: true });
+
+// statics - get all active albums at the given date
+AlbumSchema.statics.getActive = function(date) {
+  if(!date) { throw new Error('invalid date'); }
+  return this.model('album').find({
+    $or: [
+      { 'dates.start': null, 'dates.end': null },
+      { 'dates.start': { $lte: date }, 'dates.end': { $gte: date } }
+    ]
+  });
+};

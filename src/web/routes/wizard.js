@@ -59,7 +59,9 @@ router.post('/2', function(req, res) {
 
 // GET /wizard/3
 router.get('/3', function(req, res) {
+  var album = req.session.album;
   res.render('wizard/3', {
-    json: JSON.stringify(req.session.album)
+    json: JSON.stringify(album),
+    slug: album.slug
   });
 });
