@@ -8,7 +8,9 @@ var CronJob = require('cron').CronJob;
 
 var config = require('config');
 var model = require('lib/model');
+var jobs = require('lib/util/jobs');
 var log = require('lib/util/logger');
+
 
 // init
 model.connect(config.db.data);
@@ -21,7 +23,6 @@ var scheduler = new CronJob(
 );
 
 function onTick() {
-  log('cron tick');
   var date = moment('2016-03-06', 'YYYY-MM-DD').toDate();
   model.Album.getActive(date)
     .then(scheduleJobs)
@@ -30,17 +31,25 @@ function onTick() {
 
 function scheduleJobs(albums) {
   albums.forEach(album => {
-    log('scheudling job for album #%s', album.slug);
+    jobs.createIG(album.toObject()).then(() => {
+      log('IG job created for #%s', album.slug);
+    });
   });
 }
 
 function onError(err) {
-  log('scheduler error');
-  console.log(err);
+  log('scheduler error', err);
   console.log(err.stack);
   scheduler.stop();
 }
 
 function onStop() {
   log('cron stopped');
+  process.exit();
 }
+
+// TODO remove dev code
+jobs.registerIG((job, done) => {
+  log('process ig job', job.type, job.data);
+  done();
+});

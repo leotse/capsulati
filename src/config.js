@@ -42,12 +42,15 @@ else {
     saveUninitialized: false
   };
 
-  // worker settings
-  config.worker = {
-    instagram: { timeout: 60 },
-    facebook: { timeout: 60 }
-  };
-
   // scheduler settings
-  config.scheduler = '* * * * * *'; // every 5 seconds for dev purposes
+  config.scheduler = '*/5 * * * * *'; // every 5 seconds for dev purposes
+
+  // kue settings
+  config.kue = {
+    prefix: 'capsulati',
+    redis: {
+      host: '127.0.0.1',
+      port: 6379
+    }
+  };
 }
