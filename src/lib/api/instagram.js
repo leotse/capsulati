@@ -27,14 +27,6 @@ module.exports.recentByTag = function(tag, opts) {
   });
 };
 
-// gets next page of data for ANY api calls, given the next_url
-module.exports.next = function(url) {
-  return request({
-    url: url,
-    json: true
-  });
-};
-
 // helper - gets instagram url for an endpoint
 function getUrl(path) {
   return util.format('https://api.instagram.com/v1%s', path);
