@@ -9,13 +9,17 @@ var request = require('request-promise');
 var config = require('config').instagram;
 
 // recent media by tag
-module.exports.recentByTag = function(tag) {
+module.exports.recentByTag = function(tag, opts) {
   var path = util.format('/tags/%s/media/recent', tag);
   var url = getUrl(path);
   var query = {
     client_id: config.clientid2,
-    count: 50
+    count: opts.count,
+    min_tag_id: opts.minId,
+    max_tag_id: opts.maxId
   };
+
+  // make request
   return request({
     url: url,
     qs: query,

@@ -25,7 +25,17 @@ var AlbumSchema = module.exports = new Schema({
   tokens: {
     facebook: { type: String, default: null },
     instagram: { type: String, default: null }
+  },
+
+  // info about the last update so we know where we left off
+  lastUpdate: {
+    date: { type: Date, default: null },
+
+    // use this as min_tag_id to get photo since last call
+    instagramId: { type: String, default: null },
+    facebookId: { type: String, default: null }
   }
+
 
 }, { strict: true });
 

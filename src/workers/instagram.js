@@ -11,11 +11,42 @@ var instagram = require('lib/api/instagram');
 
 var Photo = model.Photo;
 
-// init - connect to db
-model.connect(config.db.data);
+module.exports = function(job, done) {
+  var album = job.data;
+  var tag = album.tag;
+
+  log('instagram work', album.tag, album.dates, album.lastUpdate);
+
+  // check latest photos for the tag
+  var minTagId = album.lastUpdate.instagramId;
+  getAll()
+    .then(saveAll)
+    .then(updateAlbum)
+    .then(done).catch(done);
+
+  // get all photos for tag until the album start date
+  //   OR where last update left off
+  function getAll() {
+    instagram.recentByTag(tag, minTagId)
+  }
+
+  function processLatest(res) {
+
+    // no photos? job is done!
+    if(res.data.length === 0) {
+      return done();
+    }
+
+    var photos = res.data.map(json => Photo.from('instagram', json));
+    var first = photos[0];
+    var last = photos[photos.length - 1];
+    console.log(first);
+    console.log(last);
+  }
+};
 
 // dat worker
-var work = module.exports = function(opts, callback) {
+var work = function(opts, callback) {
   return new Promise((resolve, reject) => {
 
     var tag = opts.tag;
@@ -75,9 +106,3 @@ var work = module.exports = function(opts, callback) {
     }
   });
 };
-
-var minDate = moment().startOf('minute').add(-30, 'minutes').toDate();
-work({ tag:'natgeo', minDate: minDate }).then(()=>{
-  log('done!');
-  process.exit();
-});

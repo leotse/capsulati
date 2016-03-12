@@ -2,7 +2,7 @@
 // periodically goes through all active albums and kick off refresh ops
 // TBD: should we do a proper implementation with job queues?
 
-// lib
+// libs
 var moment = require('moment');
 var CronJob = require('cron').CronJob;
 
@@ -47,9 +47,3 @@ function onStop() {
   log('cron stopped');
   process.exit();
 }
-
-// TODO remove dev code
-jobs.registerIG((job, done) => {
-  log('process ig job', job.type, job.data);
-  done();
-});

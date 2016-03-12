@@ -2,7 +2,6 @@
 
 // libs
 var kue = require('kue');
-
 var config = require('config');
 var log = require('lib/util/logger');
 
