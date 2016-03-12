@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "web": "NODE_PATH=src nodemon -i src/web/public src/web/bin/www",
-    "worker": "NODE_PATH=src nodemon -i src/web src/workers/worker.js"
+    "web": "NODE_PATH=src nodemon --use_strict -i src/web/public src/web/bin/www",
+    "worker": "NODE_PATH=src nodemon -use_strict -i src/web src/workers/worker.js"
   },
   "dependencies": {
     "body-parser": "~1.13.2",

@@ -33,11 +33,11 @@ module.exports.registerFB = function(fn) {
 function create(type, payload) {
   return new Promise((resolve, reject) => {
     var job = queue.create(type, payload)
-      .attempts(3)
+      .attempts(5)
       .backoff(true);
     job.save(err => {
       if(err) { reject(err); }
-      else { resolve(); }
+      else { resolve(job); }
     });
   });
 }

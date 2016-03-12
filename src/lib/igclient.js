@@ -17,13 +17,17 @@ var IGClient = module.exports = class {
       var all = [];
 
       // first... check latest
-      api.recentByTag(tag, { count: 5, minId: id })
+      api.recentByTag(tag, { minId: id })
         .then(getMore).catch(reject);
 
       // check to see if we need more
       function getMore(res) {
         var maxId = res.pagination.next_max_id;
         var photos = res.data;
+
+        // nothing? just return
+        if(photos.length === 0) { return resolve(photos); }
+
         var last = photos[photos.length - 1];
         var oldest = moment.unix(last.created_time).toDate();
 
@@ -35,7 +39,7 @@ var IGClient = module.exports = class {
         if(!maxId) { return resolve(all); }
         if(date && oldest < date) { return resolve(all); }
 
-        api.recentByTag(tag, { count: 5, minId: id, maxId: maxId })
+        api.recentByTag(tag, { minId: id, maxId: maxId })
           .then(getMore)
           .catch(reject);
       }
