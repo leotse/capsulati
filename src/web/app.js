@@ -60,10 +60,18 @@ app.use(function(req, res, next) {
 if (app.get('env') === 'development') {
   app.use(function(err, req, res, next) {
     res.status(err.status || 500);
-    res.render('error', {
-      message: err.message,
-      error: err
-    });
+    if(req.url.indexOf('/api') === 0) {
+      res.json({
+        message: err.message,
+        error: err
+      });
+    } else {
+      res.render('error', {
+        message: err.message,
+        error: err
+      });
+    }
+    console.log(err.stack);
   });
 }
 
@@ -71,10 +79,16 @@ if (app.get('env') === 'development') {
 // no stacktraces leaked to user
 app.use(function(err, req, res, next) {
   res.status(err.status || 500);
-  res.render('error', {
-    message: err.message,
-    error: {}
-  });
+  if(req.url.indexOf('/api') === 0) {
+    res.json({
+      message: err.message
+    });
+  } else {
+    res.render('error', {
+      message: err.message
+    });
+  }
+  console.log(err.stack);
 });
 
 
