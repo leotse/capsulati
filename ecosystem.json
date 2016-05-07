@@ -1,0 +1,42 @@
+{
+  "apps": [
+    {
+      "name": "capsulati-web",
+      "script": "src/web/bin/www",
+      "node_args": "--use_strict",
+      "env": {
+        "NODE_PATH": "src",
+        "DEBUG": "lg:*"
+      }
+    },
+    {
+      "name": "capsulati-cron",
+      "script":"src/workers/scheduler.js",
+      "node_args": "--use_strict",
+      "env": {
+        "NODE_PATH": "src"
+      }
+    },
+    {
+      "name": "capsulati-worker",
+      "script": "src/workers/worker.js",
+      "node_args": "--use_strict",
+      "env": {
+        "NODE_PATH": "src"
+      }
+    }
+  ],
+  "deploy": {
+    "production": {
+      "user": "leo",
+      "host": "159.203.15.89",
+      "ref": "origin/master",
+      "repo": "git@github.com:leotse/capsulati.git",
+      "path": "~/code/capsulati",
+      "post-deploy": "npm install && bower install && pm2 startOrRestart ecosystem.json --env production",
+      "env": {
+        "NODE_ENV": "production"
+      }
+    }
+  }
+}
