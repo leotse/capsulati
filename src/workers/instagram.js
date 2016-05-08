@@ -1,43 +1,34 @@
 // a worker that pulls instagram for the given tag and max id
 
 // libs
-var _ = require('lodash');
-var moment = require('moment');
+const moment = require('moment');
 
-var config = require('config');
-var model = require('lib/model');
-var log = require('lib/util/logger');
-var IGClient = require('lib/igclient');
+const config = require('config');
+const model = require('lib/model');
+const log = require('lib/util/logger');
+const instagram = require('lib/api/instagram');
 
-var Album = model.Album;
-var Photo = model.Photo;
+const Album = model.Album;
+const Photo = model.Photo;
 
-module.exports = function(job, done) {
-  var album = job.data;
-  var tag = album.tag;
+module.exports = function (job, done) {
+  const album = job.data;
+  const tag = album.tag;
+  const start = new Date(album.dates.start);
+  const end = new Date(album.dates.end);
+  const lastUpdated = new Date(album.lastUpdate.instagram.date);
 
-  log('instagram worker #%s min_tag_id %s start %s end %s',
-    album.tag,
-    album.lastUpdate.instagram.id,
-    album.dates.start,
-    album.dates.end
-  );
+
+  log(`instagram worker #${tag} :: lastupdated ${lastUpdated}`);
 
   // check latest photos for the tag
-  var minTagId = album.lastUpdate.instagram.id;
-  var client = new IGClient();
-
-  // get photos since last update
-  var apiPromise = client.recentByTagUntil(tag, {
-    id: minTagId,
-    date: new Date(album.dates.start),
-    onPhotos: onPhotos
-  });
+  const req = instagram.recentByTagUntil(
+    tag, lastUpdated, { count: 50, apiKey: config.instagram.clientid2 });
 
   // update db once photos are ready
-  Promise.all([ apiPromise.then(updatePhotos), apiPromise.then(updateAlbum) ])
+  Promise.all([ req.then(updatePhotos), req.then(updateAlbum) ])
     .then(() => {
-      log('#%s complete!', album.tag);
+      log(`${tag} complete!`);
       done();
     })
     .catch(err => {
@@ -47,19 +38,13 @@ module.exports = function(job, done) {
       done(err);
     });
 
-  // called when we page api calls, just for logging for now
-  function onPhotos(photos) {
-    log('downloaded %d photos', photos.length,
-      moment.unix(photos[photos.length - 1].created_time).format());
-  }
-
   // update photos in db
   function updatePhotos(photos) {
     log('updating %d photos', photos.length);
-    var updates = photos.map(json => Photo.from('instagram', json) )
+    const updates = photos.map(json => Photo.from('instagram', json) )
     .map(photo => {
       photo._album = album._id;
-      var doc = photo.toObject();
+      const doc = photo.toObject();
       delete doc._id;
       return Photo.update(
         { _album: album._id, source: 'instagram', id: doc.id },
@@ -79,8 +64,8 @@ module.exports = function(job, done) {
       return Promise.resolve(true);
     }
 
-    var latest = photos[0];
-    var id = latest.id.split('_')[0];
+    const latest = photos[0];
+    const id = latest.id.split('_')[0];
     return Album.findById(album._id).then(album => {
       album.lastUpdate.instagram.id = id;
       album.lastUpdate.instagram.date = new Date();

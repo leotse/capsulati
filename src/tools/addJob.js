@@ -7,7 +7,7 @@ var config = require('config');
 var Album = model.Album;
 
 model.connect(config.db.data);
-Album.findById('56e4911d8917cd152e850a2e')
+Album.findById('56db598ae8b371e20fd3653d')
   .then(album => jobs.createIG(album))
   .then(job => {
     console.log(job.data);
