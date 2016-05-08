@@ -64,7 +64,7 @@ function fromInstagram(json) {
   var photo = new Photo();
   photo.source = 'instagram';
   photo.id = json.id;
-  photo.created = new Date(Number(json.created_time) * 1000);
+  photo.created = json.created_time;
   photo.images = _.map(json.images, img => {
     return {
       url: img.url,

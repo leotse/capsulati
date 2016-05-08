@@ -9,8 +9,8 @@ var log = require('lib/util/logger');
 var queue = kue.createQueue(config.kue);
 
 // public - create instagram job
-module.exports.createIG = function(album) {
-  return create('instagram', album);
+module.exports.createIG = function(albumId, tag, until) {
+  return create('instagram', { albumId, tag, until });
 };
 
 // public - register instagram jobs worker

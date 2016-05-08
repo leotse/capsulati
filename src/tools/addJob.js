@@ -7,10 +7,8 @@ var config = require('config');
 var Album = model.Album;
 
 model.connect(config.db.data);
-Album.findById('56db598ae8b371e20fd3653d')
-  .then(album => jobs.createIG(album))
+jobs.createIG('56e4911d8917cd152e850a2e', 'helloworld', new Date('2016-05-08 18:45'))
   .then(job => {
     console.log(job.data);
     process.exit();
-  })
-  .catch(err => console.log(err));
+  }).catch(err => console.log(err));

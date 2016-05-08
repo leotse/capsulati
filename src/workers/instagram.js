@@ -12,18 +12,15 @@ const Album = model.Album;
 const Photo = model.Photo;
 
 module.exports = function (job, done) {
-  const album = job.data;
-  const tag = album.tag;
-  const start = new Date(album.dates.start);
-  const end = new Date(album.dates.end);
-  const lastUpdated = new Date(album.lastUpdate.instagram.date);
+  const albumId = job.data.albumId;
+  const tag = job.data.tag;
+  const until = new Date(job.data.until);
 
-
-  log(`instagram worker #${tag} :: lastupdated ${lastUpdated}`);
+  log(`instagram worker #${tag} for ${albumId} until ${until}`);
 
   // check latest photos for the tag
   const req = instagram.recentByTagUntil(
-    tag, lastUpdated, { count: 50, apiKey: config.instagram.clientid2 });
+    tag, until, { count: 50, apiKey: config.instagram.clientid2 });
 
   // update db once photos are ready
   Promise.all([ req.then(updatePhotos), req.then(updateAlbum) ])
@@ -43,11 +40,11 @@ module.exports = function (job, done) {
     log('updating %d photos', photos.length);
     const updates = photos.map(json => Photo.from('instagram', json) )
     .map(photo => {
-      photo._album = album._id;
+      photo._album = albumId;
       const doc = photo.toObject();
       delete doc._id;
       return Photo.update(
-        { _album: album._id, source: 'instagram', id: doc.id },
+        { _album: albumId, source: 'instagram', id: doc.id },
         doc,
         { safe: true, upsert: true, overwrite: true }
       );
@@ -66,9 +63,9 @@ module.exports = function (job, done) {
 
     const latest = photos[0];
     const id = latest.id.split('_')[0];
-    return Album.findById(album._id).then(album => {
+    return Album.findById(albumId).then(album => {
       album.lastUpdate.instagram.id = id;
-      album.lastUpdate.instagram.date = new Date();
+      album.lastUpdate.instagram.date = new Date(latest.created_time);
       return album.save();
     });
   }

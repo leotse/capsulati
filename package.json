@@ -5,8 +5,8 @@
   "scripts": {
     "dev:db": "docker exec -it mongo mongo capsulati-data",
     "dev:kue": "docker exec -it redis redis-cli",
-    "dev:web": "NODE_PATH=src nodemon --use_strict -i src/web/public src/web/bin/www",
-    "dev:worker": "NODE_PATH=src nodemon -use_strict -i src/web src/workers/worker.js"
+    "dev:web": "NODE_PATH=src nodemon --use_strict -w src/web -w src/lib src/web/bin/www",
+    "dev:worker": "NODE_PATH=src nodemon -use_strict -w src/workers -w src/lib src/workers/worker.js"
   },
   "dependencies": {
     "body-parser": "~1.13.2",
