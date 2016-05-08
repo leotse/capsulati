@@ -10,10 +10,10 @@ var model = require('lib/model');
 router.get('/:slug', function(req, res, next) {
   var slug = req.params.slug;
   model.Album.findOne()
-    .select('-tokens')
     .where('slug', slug)
     .then(album => {
-      if(!album) { return next(); }
+      console.log('wer', album);
+      if(!album) { return next(new Error('not found')); }
       res.json(album);
     }).catch(next);
 });

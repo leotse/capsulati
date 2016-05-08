@@ -41,7 +41,8 @@ module.exports = function(job, done) {
       done();
     })
     .catch(err => {
-      log('error', err);
+      log('instgram worker error:');
+      console.log(err);
       console.log(err.stack);
       done(err);
     });

@@ -23,7 +23,7 @@ var scheduler = new CronJob(
 );
 
 function onTick() {
-  var date = moment('2016-03-06', 'YYYY-MM-DD').toDate();
+  var date = moment('2016-05-07', 'YYYY-MM-DD').toDate();
   model.Album.getActive(date)
     .then(scheduleJobs)
     .catch(onError);
