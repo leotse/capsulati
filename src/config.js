@@ -7,8 +7,8 @@ if(env === 'production') {
 
   // mongodb - data and session
   config.db = {
-    data: 'mongodb://localhost:27117/capsulati-data',
-    session: 'mongodb://localhost:27117/capsulati-session'
+    data: 'mongodb://localhost:27017/capsulati-data',
+    session: 'mongodb://localhost:27017/capsulati-session'
   };
 
   // cookies
