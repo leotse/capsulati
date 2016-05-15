@@ -1,12 +1,20 @@
 extends layout
 
+block css
+  link(rel='stylesheet', href='/vendor/bootstrap/dist/css/bootstrap.css')
+  link(rel='stylesheet', href='/css/style.css')
+
 block script
+  script(src='/vendor/lodash/dist/lodash.min.js')
+  script(src='/vendor/jquery/dist/jquery.min.js')
+  script(src='/vendor/bootstrap/dist/js/bootstrap.min.js')
   script(src='/js/vcarousel.js')
   script(src='/js/main.js')
+  
 
 block content
   div#page-wrapper
-    div#carousel.carousel.slide
+    div#carousel.carousel.slide.carousel-fade
       div.carousel-inner(role='listbox')
         div.item
         div.item

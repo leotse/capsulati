@@ -13,7 +13,7 @@ router.get('/:slug', function(req, res, next) {
     .where('slug', slug)
     .then(album => {
       if(!album) { return next(new Error('not found')); }
-      const title = '#' + album.tag;
+      const title = `#${album.tag} :: capsulati`;
       res.render('album', { title, album });
     }).catch(next);
 });

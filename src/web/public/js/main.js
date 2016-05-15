@@ -1,8 +1,8 @@
-(function() {
+(function($) {
+
   'use strict';
 
   $(document).ready(onDocumentReady);
-
   function onDocumentReady() {
 
     // init carousel
@@ -10,12 +10,20 @@
       selector: '#carousel',
       prev: '#prev',
       next: '#next',
-      interval: 0
+      interval: 5000
     });
 
-    // init carousel data
-    $.getJSON('/api/instagram/tags/snowy', function(res) {
-      c.setData(res.data);
+    // get latest photos
+    $.get('/api/photos?s=helloworld', function(data) {
+      var photos = _.map(data, function(p) {
+        return {
+          by: p.by,
+          url: p.images[2].url,
+          caption: p.caption,
+          created: p.created
+        };
+      });
+      c.setData(photos);
     });
   }
-}());
+}(jQuery));

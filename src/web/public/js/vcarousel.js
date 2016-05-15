@@ -23,6 +23,12 @@
       animating = false;
     });
 
+    // init - slide timer
+    var timer = null;
+    if(_.isNumber(opts.interval) && opts.interval) {
+      timer = setInterval(next, opts.interval);
+    }
+
     // init - finally create the underlying bootstrap carousel!
     $carousel.carousel(opts);
 
@@ -31,7 +37,7 @@
       data = newData;
 
       // update dom
-      $items[index % size].innerHTML = createImageHTML(data[index].images.standard_resolution.url);
+      $items[index % size].innerHTML = createImageHTML(data[index].url);
     };
 
     // private - prev slide
@@ -39,16 +45,17 @@
       if(animating || index === 0) { return; }
       animating = true;
       index--;
-      $items[index % size].innerHTML = createImageHTML(data[index].images.standard_resolution.url);
+      $items[index % size].innerHTML = createImageHTML(data[index].url);
       $carousel.carousel('prev');
     }
 
     // private - next slide
     function next() {
-      if(animating || index + 1 >= data.length) { return; }
+      if(animating) { return; }
+      if(index + 1 >= data.length) { index = -1;}
       animating = true;
       index++;
-      $items[index % size].innerHTML = createImageHTML(data[index].images.standard_resolution.url);
+      $items[index % size].innerHTML = createImageHTML(data[index].url);
       $carousel.carousel('next');
     }
 
