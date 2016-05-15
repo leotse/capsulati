@@ -3,18 +3,18 @@
 // TBD: should we do a proper implementation with job queues?
 
 // libs
-var moment = require('moment');
-var CronJob = require('cron').CronJob;
+const moment = require('moment');
+const CronJob = require('cron').CronJob;
 
-var config = require('config');
-var model = require('lib/model');
-var jobs = require('lib/util/jobs');
-var log = require('lib/util/logger');
+const config = require('config');
+const model = require('lib/model');
+const jobs = require('lib/util/jobs');
+const log = require('lib/util/logger');
 
 
 // init
 model.connect(config.db.data);
-var scheduler = new CronJob(
+const scheduler = new CronJob(
   config.scheduler,
   onTick,
   onStop,
@@ -23,15 +23,16 @@ var scheduler = new CronJob(
 );
 
 function onTick() {
-  var date = moment('2016-05-07', 'YYYY-MM-DD').toDate();
-  model.Album.getActive(date)
+  const now = moment().add(-1, 'minute').toDate();
+  model.Album.getActive(now)
     .then(scheduleJobs)
     .catch(onError);
 }
 
 function scheduleJobs(albums) {
   albums.forEach(album => {
-    jobs.createIG(album.toObject()).then(() => {
+    const date = album.lastUpdate.instagram.date || moment().add(-1, 'hour').toDate();
+    jobs.createIG(album._id, album.tag, date).then(() => {
       log('IG job created for #%s', album.slug);
     });
   });

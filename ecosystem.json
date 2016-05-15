@@ -33,7 +33,7 @@
       "ref": "origin/master",
       "repo": "git@github.com:leotse/capsulati.git",
       "path": "~/code/capsulati",
-      "post-deploy": "npm install && bower install && pm2 startOrRestart ecosystem.json --env production",
+      "post-deploy": "npm run setup && pm2 startOrRestart ecosystem.json --env production",
       "env": {
         "NODE_ENV": "production"
       }
