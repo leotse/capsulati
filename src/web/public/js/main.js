@@ -21,6 +21,7 @@
     });
 
     // init - load latest
+    // TODO: INIT TIMER!
     window.getData = c.getData;
     window.update = function() {
       var data = c.getData();
@@ -33,10 +34,11 @@
   }
 
   // helper - calls photos api
+  // TODO: REMOVE DEBUG CODE
   var first = true;
   function getPhotos(tag, since, callback) {
     var url = '/api/photos?limit=5&s='+ tag + '&since=' + (since || 0);
-    if(first) { url += '&skip=1'; }
+    if(first) { url += '&skip=5'; }
     first = false;
     $.get(url, function(data) {
       var photos = _.map(data, function(p) {
