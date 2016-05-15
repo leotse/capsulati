@@ -1,4 +1,4 @@
-(function(window, $) {
+(function(window, $, _) {
 
   'use strict';
 
@@ -9,17 +9,13 @@
     var $items = $carousel.find('.item');
     var $active = $carousel.find('.item.active');
     var $bg = $carousel.find('.background');
-    var $prev = $(opts.prev);
-    var $next = $(opts.next);
 
     var size = $items.size();
-    var index = $active.index();
     var animating = false;
     var data = [];
+    var index = 0;
 
     // init - carousel events
-    $prev.on('click', prev);
-    $next.on('click', next);
     $carousel.on('slid.bs.carousel', function() {
       animating = false;
     });
@@ -33,36 +29,50 @@
     // init - finally create the underlying bootstrap carousel!
     $carousel.carousel(opts);
 
+    // public - get current data
+    this.getData = function() {
+      return data;
+    };
+
     // public - add data
     this.setData = function(newData) {
       data = newData;
 
-      // update dom
-      $items[index % size].innerHTML = createImageHTML(data[index].url);
+      if(data && data.length > 0) {
+        // init first slide
+        var domIndex = $carousel.find('.item.active').index();
+        $items[domIndex].innerHTML = createImageHTML(data[0].url);
 
-      // update background
-      setBG(data[index].url);
+        // update background
+        setBG(data[0].url);
+      }
     };
 
-    // private - prev slide
-    function prev() {
-      if(animating || index === 0) { return; }
-      animating = true;
-      index--;
-      $items[index % size].innerHTML = createImageHTML(data[index].url);
-      $carousel.carousel('prev');
-      setBG(data[index].url);
-    }
+    // public - prepend data
+    this.addData = function(newData) {
+      if(newData && newData.length > 0) {
+        data = newData.concat(data);
+        index += newData.length;
+        console.log('added data', data, index);
+      }
+    };
 
     // private - next slide
     function next() {
       if(animating) { return; }
-      if(index + 1 >= data.length) { index = -1;}
+
+      // update internal states
       animating = true;
       index++;
-      $items[index % size].innerHTML = createImageHTML(data[index].url);
-      $carousel.carousel('next');
+      if(index >= data.length) { index = 0; }
+
+      // find and update next dom element
+      var domIndex = $carousel.find('.item.active').index() + 1;
+      $items[domIndex % size].innerHTML = createImageHTML(data[index].url);
+
+      // and slide!
       setBG(data[index].url);
+      $carousel.carousel('next');
     }
 
     // private - create image tag
@@ -79,4 +89,4 @@
   // register jquery plugin
   window.VCarousel = VCarousel;
 
-}(window, jQuery));
+}(window, jQuery, _));
