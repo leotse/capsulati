@@ -25,7 +25,7 @@ module.exports = function (job, done) {
   // update db once photos are ready
   Promise.all([ req.then(updatePhotos), req.then(updateAlbum) ])
     .then(() => {
-      log(`${tag} complete!`);
+      log(`#${tag} complete!`);
       done();
     })
     .catch(err => {

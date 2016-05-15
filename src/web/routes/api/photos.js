@@ -14,7 +14,7 @@ let router = module.exports = express.Router();
 router.get('/', getLatest);
 
 function getLatest(req, res, next) {
-  let slug = req.query.slug;
+  let slug = req.query.s;
   let limit = Number(req.query.limit) || 20;
   let skip = Number(req.query.skip) || 0;
 
