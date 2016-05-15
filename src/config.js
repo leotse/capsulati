@@ -21,7 +21,7 @@ if(env === 'production') {
   };
 
   // scheduler settings
-  config.scheduler = '* */5 * * * *'; // every 5 minutes for now
+  config.scheduler = '0 */5 * * * *'; // every 5 minutes for now
 
   // kue settings
   config.kue = {
@@ -50,7 +50,7 @@ if(env === 'production') {
   };
 
   // scheduler settings
-  config.scheduler = '*/5 * * * * *'; // every 5 seconds for dev purposes
+  config.scheduler = '*/10 * * * * *'; // every 10 seconds for dev purposes
 
   // kue settings
   config.kue = {
