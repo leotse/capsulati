@@ -85,11 +85,15 @@ const InstagramRequest = module.exports = class InstagramRequest {
 function parse(res) {
   res.data = res.data.map(d => {
     d.created_time = new Date(d.created_time * 1000);
-    d.caption.created_time = new Date(d.caption.created_time * 1000);
-    d.comments.data = d.comments.data.map(c => {
-      c.created_time = new Date(c.created_time * 1000);
-      return c;
-    });
+    if(d.caption) {
+      d.caption.created_time = new Date(d.caption.created_time * 1000);
+    }
+    if(d.comments.count > 0) {
+      d.comments.data = d.comments.data.map(c => {
+        c.created_time = new Date(c.created_time * 1000);
+        return c;
+      });
+    }
     return d;
   });
   return res;
