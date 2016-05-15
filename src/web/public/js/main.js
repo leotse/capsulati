@@ -1,24 +1,29 @@
-(function($) {
+(function(window, $, _) {
 
   'use strict';
 
   $(document).ready(onDocumentReady);
   function onDocumentReady() {
 
-    // init carousel
+    // init - slideshow tag
+    var tag = window.tag;
+    if(!tag) { throw new Error('window.tag is required!'); }
+
+    // init - ui things
+    var $bg = $('#background');
     var c = new VCarousel({
       selector: '#carousel',
       prev: '#prev',
       next: '#next',
-      interval: 5000
+      interval: 5000,
     });
 
-    // get latest photos
-    $.get('/api/photos?s=helloworld', function(data) {
+    // init - get latest photos
+    $.get('/api/photos?s=' + tag, function(data) {
       var photos = _.map(data, function(p) {
         return {
           by: p.by,
-          url: p.images[2].url,
+          url: _.last(p.images).url,
           caption: p.caption,
           created: p.created
         };
@@ -26,4 +31,4 @@
       c.setData(photos);
     });
   }
-}(jQuery));
+}(window, jQuery, _));

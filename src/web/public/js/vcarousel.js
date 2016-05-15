@@ -8,6 +8,7 @@
     var $carousel = $(opts.selector);
     var $items = $carousel.find('.item');
     var $active = $carousel.find('.item.active');
+    var $bg = $carousel.find('.background');
     var $prev = $(opts.prev);
     var $next = $(opts.next);
 
@@ -38,6 +39,9 @@
 
       // update dom
       $items[index % size].innerHTML = createImageHTML(data[index].url);
+
+      // update background
+      setBG(data[index].url);
     };
 
     // private - prev slide
@@ -47,6 +51,7 @@
       index--;
       $items[index % size].innerHTML = createImageHTML(data[index].url);
       $carousel.carousel('prev');
+      setBG(data[index].url);
     }
 
     // private - next slide
@@ -57,11 +62,17 @@
       index++;
       $items[index % size].innerHTML = createImageHTML(data[index].url);
       $carousel.carousel('next');
+      setBG(data[index].url);
     }
 
     // private - create image tag
     function createImageHTML(url) {
       return '<div class="item-container"><img src="' + url + '" /></div>';
+    }
+
+    // private - update background image
+    function setBG(url) {
+      $bg.attr('src', url);
     }
   }
 
