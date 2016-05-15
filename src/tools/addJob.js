@@ -1,14 +1,19 @@
 // adds a job to queue
 // mostly for dev purposes
 
-var jobs = require('lib/util/jobs');
-var model = require('lib/model');
-var config = require('config');
-var Album = model.Album;
+const moment = require('moment');
+const config = require('config');
+const model = require('lib/model');
+const jobs = require('lib/util/jobs');
+
+const Album = model.Album;
 
 model.connect(config.db.data);
-jobs.createIG('56e4911d8917cd152e850a2e', 'helloworld', new Date('2016-05-08 18:45'))
+
+// createIG params are (albumId, #tag, until)
+jobs.createIG('5738bc2a74ba49331dd5a59a', 'snowy', moment().add(-30, 'minute').toDate())
   .then(job => {
     console.log(job.data);
     process.exit();
-  }).catch(err => console.log(err));
+  })
+  .catch(err => console.log(err));
