@@ -34,12 +34,8 @@
   }
 
   // helper - calls photos api
-  // TODO: REMOVE DEBUG CODE
-  var first = true;
   function getPhotos(tag, since, callback) {
-    var url = '/api/photos?limit=5&s='+ tag + '&since=' + (since || 0);
-    if(first) { url += '&skip=5'; }
-    first = false;
+    var url = '/api/photos?s='+ tag + '&since=' + (since || 0);
     $.get(url, function(data) {
       var photos = _.map(data, function(p) {
         return {
