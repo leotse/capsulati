@@ -8,12 +8,12 @@ const Album = model.Album;
 
 model.connect(config.db.data);
 const album = new Album({
-  slug: 'snowy',
-  tag: 'snowy',
-  name: 'snowy',
+  slug: 'kksoho',
+  tag: 'kksoho',
+  name: 'kksoho',
   dates: {
     start: moment('2016-05-01', 'YYYY-MM-DD'),
-    end: moment('2016-05-05-31', 'YYYY-MM-DD').endOf('day')
+    end: moment('2016-05-31', 'YYYY-MM-DD').endOf('day')
   }
 });
 album.save().then(saved => {

@@ -21,6 +21,12 @@ const InstagramRequest = module.exports = class InstagramRequest {
       req.next().then(checkMore).catch(reject);
 
       function checkMore(res) {
+        // no pics on instagram? just continue
+        if(res.data.length === 0) {
+          return resolve(all);
+        }
+
+        // otherwise update request state
         all = all.concat(res.data);
         const media = _.last(res.data);
         const lastUpdated = getLastUpdated(media);
