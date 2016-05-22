@@ -16,7 +16,7 @@
     });
 
     // init refresh timer
-    var timer = setInterval(getLatest, 5000);
+    var timer = setInterval(getLatest, 60000);
 
     // init - load initial photo data
     getPhotos(tag, 0, function(photos) {
