@@ -41,7 +41,7 @@
       if(data && data.length > 0) {
         // init first slide
         var domIndex = $carousel.find('.item.active').index();
-        $items[domIndex].innerHTML = createImageHTML(data[0].url);
+        $items[domIndex].innerHTML = createSlideHTML(data[0]);
 
         // update background
         setBG(data[0].url);
@@ -68,7 +68,7 @@
 
       // find and update next dom element
       var domIndex = $carousel.find('.item.active').index() + 1;
-      $items[domIndex % size].innerHTML = createImageHTML(data[index].url);
+      $items[domIndex % size].innerHTML = createSlideHTML(data[index]);
 
       // and slide!
       setBG(data[index].url);
@@ -76,8 +76,16 @@
     }
 
     // private - create image tag
-    function createImageHTML(url) {
-      return '<div class="item-container"><img src="' + url + '" /></div>';
+    function createSlideHTML(photo) {
+      let html = '';
+      html += '<div class="item-container">';
+      html +=   '<img src="' + photo.url + '">';
+      html +=   '<div class="carousel-caption">';
+      html +=     '<img class="by" src="' + photo.by.picture + '">';
+      html +=     '<span>' + photo.caption + '</span>';
+      html +=   '</div>';
+      html += '</div>';
+      return html;
     }
 
     // private - update background image

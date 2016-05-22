@@ -10,6 +10,15 @@ html, body { background-color: #000000; }
   margin: auto;
 }
 
+.carousel .item .by {
+  width: 25px;
+  height: 25px;
+  margin-right: 15px;
+
+  border-radius: 25px;
+	-webkit-border-radius: 25px;
+}
+
 .carousel-fade .carousel-inner .item {
   -webkit-transition-property: opacity;
   transition-property: opacity;
