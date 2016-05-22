@@ -77,7 +77,7 @@
 
     // private - create image tag
     function createSlideHTML(photo) {
-      let html = '';
+      var html = '';
       html += '<div class="item-container">';
       html +=   '<img src="' + photo.url + '">';
       html +=   '<div class="carousel-caption">';
